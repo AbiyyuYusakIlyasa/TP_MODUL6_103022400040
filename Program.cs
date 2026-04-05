@@ -5,15 +5,29 @@ using TP_MODUL6_103022400040;
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        SayaMusicTrack lagu1 = new SayaMusicTrack("Lagu A");
-        SayaMusicTrack lagu2 = new SayaMusicTrack("Lagu B");
+        try
+        {
+            SayaMusicTrack lagu = new SayaMusicTrack("Lagu Favorit");
 
-        lagu1.IncreasePlayCount(10);
-        lagu2.IncreasePlayCount(5);
+            // Test normal
+            lagu.IncreasePlayCount(5000000);
 
-        lagu1.PrintTrackDetails();
-        lagu2.PrintTrackDetails();
+            // Test melebihi batas (precondition)
+            lagu.IncreasePlayCount(20000000);
+
+            // Test overflow (loop biar cepat)
+            for (int i = 0; i < 100; i++)
+            {
+                lagu.IncreasePlayCount(int.MaxValue);
+            }
+
+            lagu.PrintTrackDetails();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Terjadi error: " + ex.Message);
+        }
     }
 }

@@ -1,42 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace TP_MODUL6_103022400040
 {
-
-    using System;
-
-    public class SayaMusicTrack
+    class SayaMusicTrack
     {
         private int id;
         private int playCount;
         private string title;
 
-        // Constructor
         public SayaMusicTrack(string title)
         {
+
+            Debug.Assert(title != null, "Judul tidak boleh null");
+            Debug.Assert(title.Length <= 100, "Judul maksimal 100 karakter");
+
             this.title = title;
             this.playCount = 0;
 
-            // generate id random 5 digit
             Random rand = new Random();
             this.id = rand.Next(10000, 100000);
         }
 
-        // Method untuk menambah play count
         public void IncreasePlayCount(int count)
         {
-            this.playCount += count;
+            Debug.Assert(count <= 10000000, "Penambahan play count maksimal 10.000.000");
+
+            try
+            {
+                checked
+                {
+                    this.playCount += count;
+                }
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Error: Terjadi overflow pada play count!");
+            }
         }
 
-        // Method untuk print detail
         public void PrintTrackDetails()
         {
             Console.WriteLine("ID: " + id);
             Console.WriteLine("Title: " + title);
             Console.WriteLine("Play Count: " + playCount);
-            Console.WriteLine("----------------------");
+            Console.WriteLine("------------------------");
         }
     }
 }
